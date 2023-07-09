@@ -1,0 +1,240 @@
+\documentclass[12pt]{article}
+\usepackage[left=1cm, right=1cm, top=2cm,bottom=1.5cm]{geometry} 
+
+\usepackage[parfill]{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\usepackage{amsfonts, amsmath, amsthm, amssymb, mathtools}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1pt}
+
+\usepackage{graphicx}
+\usepackage[figurename=Рис.]{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+%%Наименование папки откуда забирать изображения
+\graphicspath{ {./images/} }
+
+%%Изменение формата для ввода доказательства
+\renewcommand{\proofname}{$\square$  \nopunct}
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\addto\captionsrussian{%
+	\renewcommand{\proofname}{$\square$ \nopunct}%
+}
+%% Римские цифры
+\newcommand{\RN}[1]{%
+	\textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+
+\theoremstyle{definition}
+\newtheorem{defn}{Опр:}
+\newtheorem{rem}{Rm:}
+\newtheorem{prop}{Утв.}
+\newtheorem{exrc}{Упр.}
+\newtheorem{lemma}{Лемма}
+\newtheorem{theorem}{Теорема}
+\newtheorem{corollary}{Следствие}
+
+\newenvironment{cusdefn}[1]
+{\renewcommand\thedefn{#1}\defn}
+{\enddefn}
+
+
+
+\DeclareRobustCommand{\divby}{%
+	\mathrel{\text{\vbox{\baselineskip.65ex\lineskiplimit0pt\hbox{.}\hbox{.}\hbox{.}}}}%
+}
+
+
+\newcommand{\smallerrel}[1]{\mathrel{\mathpalette\smallerrelaux{#1}}}
+\newcommand{\smallerrelaux}[2]{\raisebox{.1ex}{\scalebox{.75}{$#1#2$}}}
+
+\newcommand{\smallin}{\smallerrel{\in}}
+\newcommand{\smallnotin}{\smallerrel{\notin}}
+
+
+\begin{document}
+	\lhead{Математическая логика}
+	\chead{Беклимишев Л.Д.}
+	\rhead{Лекция - 1}
+	
+\subsection*{План курса:}	
+\begin{enumerate}
+	\item Теория множеств.
+	\item Логика высказываний.
+	\item Логика предикатов.
+	\item Вычислимость. Теорема Геделя.
+\end{enumerate}
+
+\section*{Аксиоматика теории множеств}
+\uwave{Синтаксис} - грамматика формального языка.\\
+\uwave{Семантика} - каким образом наделяются смыслом формальные высказывания.
+
+\underline{Парадокс рассела} (парадокс брадобрея):
+
+$R = \{\,x \mid x \notin x\,\}$, $x \in R \Leftrightarrow x \notin x$, $R \in R \Leftrightarrow R \notin R$
+
+Э. Цермело, А. Френкель - построили аксиоматическую теорию множеств (ZF).
+
+\subsection*{Аксиоматический метод:}
+
+\begin{enumerate}[label={(\arabic*)}]
+	\item Зафиксировать базисные, \underline{неопределимые понятия}.
+	\item Постулируем некоторое число аксиом, связывающих между собой базисные понятия.
+	\item Выводим следствия по \underline{правилам логики}.
+\end{enumerate}
+
+\uwave{Аксиоматика Тарского} имеет неопределимые понятия: (1) точка, (2) отношение между тремя точками, (3) отношение между четырьмя точками = длины отрезков, (4) равенство точек.
+
+\uwave{Аксиоматика Дедекинда, Пеано} имеет неопределимые понятия: (1) точка 0, (2) операция +1/функция $S$ и следующие аксиомы:
+
+\begin{enumerate}[label={(\arabic*)}]
+	\item $\forall n, \neg S(n) = 0$
+	\item $S(n) = S(m) \Leftrightarrow n = m$
+	\item $P(0) \wedge \forall n (P(n) \Rightarrow P(n+1)) \Rightarrow \forall n, P(n)$, $P$ - любое свойство.
+\end{enumerate}
+
+Что такое свойство мы пока не знаем.
+
+К языку арифметики добавим простые аксиомы: $n + 0 = n$, $n + S(m) = S(n+m) \Rightarrow$ получим арифметику Пеано $\Rightarrow$ свойство = некоторое высказывание о натуральных числах.
+
+$x, X$ - множества - некая совокупность элементов, объединенная каким-то свойством. \\
+$\varnothing$ - пустое множество. 
+
+Нужно заметить, что $x \neq \{x\}$, $\{x\} \neq \{\{x\}\}$. $x$ - в нем может быть множество элементов, $\{x\}$ - здесь один элемент.
+
+\uwave{Неопределимые понятия}: (1) множества = любые объекты, (2) принадлежность множеству $x \in y$.
+
+Иногда определяют равенство множеств, как аксиому, мы рассматриваем это как опредление, в частности, по определению в множестве нет повторяющихся элементов.
+
+
+\begin{defn}
+	$X = Y \overset{\text{def}}{\Longleftrightarrow} \forall z, (\, z\in X \Leftrightarrow z \in Y \,)$ (Аксиома объемности).
+\end{defn}
+
+\begin{defn}
+	$X \subseteq Y \overset{\text{def}}{\Longleftrightarrow} \forall z, (\, z\in X \Rightarrow z \in Y \,)$; $X \subsetneq Y \overset{\text{def}}{\Longleftrightarrow} (X \subseteq Y \wedge X \neq Y)$
+\end{defn}
+
+
+\textbf{(1) Аксиома равенства:} $x = y \Rightarrow \forall z,  (x\in z \Leftrightarrow y \in z)$\\
+Отсюда следует, что $\exists$ хотя бы 1 элемент: $\exists x\colon x = x$ - ``аксиома существования'' - далее будет выводиться в кванторах.
+
+\textbf{(2) Аксиома пары:} $\forall x, y \; \exists z = \{x,y\} \colon \forall u, \big(u\in z \Leftrightarrow (u = x \vee u = y)\big)$
+
+\begin{defn}
+	$\{x\}\stackrel{\text{def}}{=} \{x,x\}$ - \uwave{синглетон}. Синглетон существует по аксиоме пары.
+\end{defn}
+
+$x \in \{x\}$, $\mathbb{R}$ - множество элементов, $\{\mathbb{R}\}$ - один элемент.
+
+\begin{proof}
+		$\{x\} = \{x,x\} \Leftrightarrow \forall z, (z \in \{x\} \Leftrightarrow z \in \{x,x\})$, по определения равенства.\\ 
+		$z \in  \{x\} \Leftrightarrow (z =x)$, $z \in \{x,x\} \Leftrightarrow (z = x \vee z =x) \Leftrightarrow z = x$.\\ 
+		Строго можно рассамтривать $\{x\} = \{z \mid z = x\}$.
+\end{proof}
+
+\begin{prop}
+	$x = y \Leftrightarrow \{x\} = \{y\}$.
+\end{prop}
+
+\begin{proof}
+	$x = y \Leftrightarrow \forall z \; (z = x \Leftrightarrow z = y) \Leftrightarrow \forall z (z\in \{x\} \Leftrightarrow z \in \{y\}) \Leftrightarrow \{x\} = \{y\}$.
+\end{proof}
+
+\textbf{(3) Аксиома объединения:} $\forall x \; \exists y = \cup x \colon \forall u, (u \in y \Leftrightarrow \exists z \; (u \in z \wedge z \in x))$.
+
+$\varnothing$ - множество у которого нет ни одного элемента, то есть $\forall x \; x \notin \varnothing$, сможем получить его после 5-ой аксиомы.
+
+\begin{prop}
+	Множество $\varnothing$ - единственно.
+\end{prop}
+
+\begin{proof}
+	Пусть $\forall x \; x \notin \varnothing, \forall x \; x \notin \varnothing^\prime \Rightarrow \forall x \; (x \notin \varnothing \Leftrightarrow x \notin \varnothing^\prime) \Rightarrow \forall x \; (x \in \varnothing \Leftrightarrow x \in \varnothing^\prime) \Leftrightarrow \varnothing = \varnothing^\prime$
+\end{proof}
+
+$X = \Big\{\{\varnothing\}, \big\{\{\varnothing\}\big\}, \big\{\varnothing, \{\varnothing\}\big\}\Big\}$ - содержит 3 элемента, все сущуствуют по аксиоме пары.
+
+$\bigcup X = \big\{\varnothing,\{\varnothing\}, \varnothing,\{\varnothing\} \big\} = \big\{\varnothing,\{\varnothing\} \big\}$
+	
+$\{x, y, z\} = \{x, y\} \cup \{z\} = \bigcup \big\{\{x,y\}, \{z\}\big\}$ - аналогично для более широких множеств.
+
+$X \cup Y \overset{\text{def}}{\coloneqq} \bigcup \{X, Y\}$
+	
+\textbf{(4) Аксиома степени:} $\forall x \; \exists y = \mathcal{P}(x) \colon \; \forall z \; (z \in y \Leftrightarrow z \subseteq x)$, где $\mathcal{P}(x)$ - множество всех подмножеств.
+
+\textbf{(5) Аксиома выделения:} $\forall x \; \exists y = \{u \in x \mid \varphi(u)\} \colon \forall u \; \Big(u \in y \Leftrightarrow \big( u \in x \wedge \varphi(u)\big)\Big)$, где $\varphi$ - это какое-то свойство, некоторый признак элемента $u$.
+
+$A \rightsquigarrow \{x \in A \mid \varphi(x)\}$ - множество всех элементов A, обладающих свойством $\varphi$.
+
+\subsection*{Примеры:}
+
+$X \subseteq \mathbb{N}$, $X = \{n \in \mathbb{N} \mid n \text{ - нечетно}\}$ - использовали аксиому выделения.
+
+$Y \subseteq \mathbb{R}$, $Y = \{x \in \mathbb{R} \mid x < a\}$ - использовали аксиому выделения.
+
+\subsection*{Множества и классы:}
+Множество всех множеств - не употребляется, говорят \underline{класс множеств}.
+
+\begin{defn}
+	\uwave{Класс}$ = \{x \mid \varphi(x)\}$ - совокупность всех $x$, удовлетворяющих $\varphi$, которые могут быть или не быть самими множествами.
+\end{defn}
+
+\begin{prop}
+	$\exists \varnothing$ множество.
+\end{prop}
+
+\begin{proof}
+	$\exists x_\circ$ (по аксиоме равенства/аксиоме существования) $\Rightarrow$ по аксиоме выделения\\ $\exists \{x \in x_\circ \mid x \notin x_\circ\} = \varnothing = \{x \in x_\circ \mid x \neq x\}$
+\end{proof}
+
+
+$\langle x,y\rangle$ - упорядоченная пара.
+\begin{prop}
+	Основное свойство упорядоченной пары: $\langle x_1,y_1\rangle = \langle x_2, y_2 \rangle \Leftrightarrow (x_1 = x_2 \wedge y_1 = y_2)$.	
+\end{prop}
+
+\begin{proof}
+$(\Rightarrow) \langle x_1, y_1 \rangle =  \langle x_2, y_2 \rangle \Rightarrow \cap \langle x_1, y_1 \rangle = \cap \langle x_2, y_2 \rangle \Rightarrow \{x_1\} = \{x_2\} \Leftrightarrow x_1 = x_2$\\
+$\cup \langle x_1, y_1 \rangle = \cup \langle x_2, y_2 \rangle \Rightarrow \{y_1\} = \{y_2\} \Leftrightarrow y_1 = y_2$
+
+$(\Leftarrow)$ верно по аксиоме равенства: $x_1 = x_2 \wedge y_1 = y_2 \Rightarrow$ любые построенные из них множества будут равны.
+\end{proof}
+
+\begin{defn}
+	\uwave{Упорядоченная пара по Куратовскому:} $\langle x,y\rangle \overset{\text{def}}{\coloneqq} \big\{\{x,y\}, \{x\} \big\}$
+\end{defn}
+
+$y \in \cap x \Leftrightarrow (\forall u \in x, y \in u)$
+
+\begin{theorem}
+	$x \neq \varnothing \Rightarrow \exists! z \colon z = \cap x$
+\end{theorem}
+
+\begin{proof}
+	$x \neq \varnothing \Rightarrow \exists a, a \in x \Rightarrow$ по (А5) в $a \; \exists z = \{y\in a \mid \forall u \in x, y \in u\} = \cap x$ (существование).\\
+	$y \in z \Leftrightarrow (\forall u \in x, y \in u) \Leftrightarrow y \in z^\prime \Rightarrow$ по аксиоме объемности $\Rightarrow z = z^\prime$ (единственность).
+\end{proof}
+
+Как можно получить элементы из пары?
+
+$\{x\} = \{x,y\} \cap \{x\} = \cap \langle x, y\rangle$
+
+$\{y\}= \left\{ \begin{aligned}
+	\big(\cup \langle x,y \rangle\big) \setminus \big(\cap \langle x,y \rangle\big),&& x \neq y, & \text{ разность множеств существует по аксиоме выделения}\\
+	\cap \langle x,y \rangle, && \text{иначе} &  
+\end{aligned}
+\right.$
+
+
+\end{document}
